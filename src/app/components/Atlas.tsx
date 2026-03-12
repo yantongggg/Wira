@@ -2,8 +2,10 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { MapPin, Search, Wind, Mountain, TriangleAlert, Droplets, Flame, Sun, X, CheckCircle2, Shield, ZoomIn, ZoomOut, Waves, CloudRain, Activity, AlertCircle } from "lucide-react";
 
-// Placeholder - using a solid color background since Figma asset is unavailable
-const aseanMapImage = "";
+// ASEAN Map Background Image
+// Place your ASEAN disaster map image at: public/asean-disaster-map.png
+// Update the path below to use your image
+const aseanMapImage = "/asean-disaster-map.png"; // Change this to your image path
 
 // Inline SVG map of Southeast Asia (stylized, Neo-Brutalism)
 const AseanMapSVG = () => (
@@ -369,7 +371,7 @@ export function Atlas() {
         </div>
 
         <motion.div
-          className="absolute origin-center"
+          className="absolute origin-center rounded-3xl overflow-hidden border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,0.3)]"
           style={{
             width: 1600,
             height: 1200,
@@ -377,10 +379,11 @@ export function Atlas() {
             left: '50%',
             marginTop: -600,
             marginLeft: -800,
-            backgroundImage: aseanMapImage ? `url(${aseanMapImage})` : undefined,
-            backgroundSize: 'contain',
+            backgroundImage: `url(${aseanMapImage})`,
+            backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center'
+            backgroundPosition: 'center',
+            backgroundColor: '#DBEAFE'
           }}
           animate={{ scale: mapScale }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -388,13 +391,11 @@ export function Atlas() {
           dragConstraints={mapRef}
           whileTap={{ cursor: selectedDisaster ? 'default' : 'grabbing' }}
         >
-          
-          {/* SVG Map Background */}
-          {!aseanMapImage && (
-            <div className="absolute inset-0 z-0">
-              <AseanMapSVG />
-            </div>
-          )}
+
+          {/* Fallback SVG Map Background - shown if image fails to load */}
+          <div className="absolute inset-0 z-0 opacity-30 pointer-events-none">
+            <AseanMapSVG />
+          </div>
 
           {/* Disaster Markers (Z-Index 1) */}
           <AnimatePresence>
