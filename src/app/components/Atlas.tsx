@@ -116,6 +116,8 @@ export function Atlas() {
   };
 
   // Matrix Markers (10 ASEAN Countries)
+  // Positions are calculated based on SVG viewBox coordinate system (1600x1200)
+  // and converted to percentages for responsive scaling
   const markers = [
     {
       id: "ph",
@@ -123,8 +125,8 @@ export function Atlas() {
       country: "Philippines",
       icon: Wind,
       color: "#4CC9F0",
-      top: "35%",
-      left: "82%",
+      top: "29.2%",  // 350/1200
+      left: "54.4%", // 870/1600
       flag: "🇵🇭",
       profile: "Extremely high disaster risk. Located in the Pacific typhoon belt, volcanic arc, earthquake faults, and mountainous islands prone to landslides.",
       history: ["Super Typhoon Haiyan (2013): 6,300+ deaths, 4M displaced.", "Mount Pinatubo Eruption (1991): 800+ deaths."],
@@ -137,8 +139,8 @@ export function Atlas() {
       country: "Indonesia",
       icon: TriangleAlert,
       color: "#EF476F",
-      top: "75%",
-      left: "55%",
+      top: "77.5%",  // 930/1200 (Java area)
+      left: "43.8%", // 700/1600
       flag: "🇮🇩",
       profile: "One of the most geologically active countries. Located along the Pacific Ring of Fire with 130+ active volcanoes.",
       history: ["2004 Indian Ocean Tsunami: 170,000+ deaths in Indonesia alone.", "Mount Merapi Eruption (2010): 350+ deaths.", "2025 Sumatra Flood: 1,000+ deaths."],
@@ -151,8 +153,8 @@ export function Atlas() {
       country: "Malaysia",
       icon: Droplets,
       color: "#4682B4",
-      top: "62%",
-      left: "42%",
+      top: "54.2%",  // 650/1200 (Peninsula + Borneo average)
+      left: "43.1%", // 690/1600
       flag: "🇲🇾",
       profile: "Mainly faces hydrological disasters. High exposure to monsoon flooding, landslides, and coastal storms.",
       history: ["2021–2022 Floods: 54 deaths, massive damages in Selangor & KL.", "2025 Cyclonic Storm Senyar: Rare cyclone caused major flooding."],
@@ -165,8 +167,8 @@ export function Atlas() {
       country: "Thailand",
       icon: Waves,
       color: "#06D6A0",
-      top: "50%",
-      left: "35%",
+      top: "38.3%",  // 460/1200
+      left: "28.8%", // 460/1600
       flag: "🇹🇭",
       profile: "Faces mainly monsoon floods, droughts, and tropical storms. Large rivers increase widespread flood risk.",
       history: ["2011 Mega Flood: 815 deaths, $46B damage. Bangkok almost completely flooded.", "2016–2017 Southern Floods: Affected 1.8M people."],
@@ -179,8 +181,8 @@ export function Atlas() {
       country: "Vietnam",
       icon: CloudRain,
       color: "#118AB2",
-      top: "42%",
-      left: "62%",
+      top: "35.8%",  // 430/1200
+      left: "44.4%", // 710/1600
       flag: "🇻🇳",
       profile: "One of the highest typhoon exposure levels in Asia. High risk of coastal and river flooding.",
       history: ["1964 Central Vietnam Floods: 7,000 deaths.", "2025 Typhoon Season: Several storms caused severe flooding."],
@@ -193,8 +195,8 @@ export function Atlas() {
       country: "Myanmar",
       icon: Activity,
       color: "#FFD166",
-      top: "38%",
-      left: "22%",
+      top: "30.0%",  // 360/1200
+      left: "19.7%", // 315/1600
       flag: "🇲🇲",
       profile: "Highly vulnerable to cyclones, earthquakes, landslides, and monsoon flooding.",
       history: ["Cyclone Nargis (2008): 138,000 deaths, millions displaced.", "2025 Earthquake: Magnitude 7.7 widespread damage.", "Cyclone Komen (2015): 1.7M displaced."],
@@ -207,8 +209,8 @@ export function Atlas() {
       country: "Singapore",
       icon: Sun,
       color: "#FF9F1C",
-      top: "70%",
-      left: "46%",
+      top: "63.8%",  // 765/1200
+      left: "28.1%", // 450/1600
       flag: "🇸🇬",
       profile: "Has fewer disasters but faces increasing urban climate risks like heat waves and flash floods.",
       history: ["2010 Orchard Road Flood: Urban drainage failure caused major city flooding."],
@@ -221,8 +223,8 @@ export function Atlas() {
       country: "Cambodia",
       icon: Droplets,
       color: "#073B4C",
-      top: "52%",
-      left: "54%",
+      top: "45.0%",  // 540/1200
+      left: "37.5%", // 600/1600
       flag: "🇰🇭",
       profile: "Disasters are heavily linked to the Mekong River system, leading to alternating flood and drought cycles.",
       history: ["Mekong Floods (2000): 347 deaths, huge agricultural losses."],
@@ -235,8 +237,8 @@ export function Atlas() {
       country: "Laos",
       icon: Mountain,
       color: "#8B5A2B",
-      top: "38%",
-      left: "45%",
+      top: "30.8%",  // 370/1200
+      left: "32.5%", // 520/1600
       flag: "🇱🇦",
       profile: "A mountainous country facing significant risks from river flooding, landslides, and dam failures.",
       history: ["2018 Xe-Pian Xe-Namnoy Dam Collapse: Hundreds dead, thousands displaced."],
@@ -249,8 +251,8 @@ export function Atlas() {
       country: "Brunei",
       icon: Shield,
       color: "#06D6A0",
-      top: "62%",
-      left: "58%",
+      top: "51.3%",  // 615/1200
+      left: "45.0%", // 720/1600
       flag: "🇧🇳",
       profile: "Lowest disaster exposure in ASEAN, with minimal displacement numbers.",
       history: ["Generally stable with the lowest disaster displacement numbers in Southeast Asia."],
@@ -325,19 +327,19 @@ export function Atlas() {
 
       {/* Base Layer (Z-Index 0) */}
       <div className={`flex-1 relative overflow-hidden transition-all duration-700 ${selectedDisaster ? 'bg-[#1A2639]' : 'bg-[#E6F4F1]'}`} ref={mapRef}>
-        
+
         {/* Map Focus Overlay */}
         <div className={`absolute inset-0 bg-black transition-opacity duration-500 z-[5] pointer-events-none ${selectedDisaster ? 'opacity-20' : 'opacity-0'}`} />
-        
+
         {/* Zoom Controls */}
         <div className="absolute bottom-24 right-6 z-20 flex flex-col gap-2">
-          <button 
+          <button
             onClick={handleZoomIn}
             className="w-12 h-12 bg-white rounded-full border-[3px] border-black shadow-[3px_3px_0px_rgba(0,0,0,1)] flex items-center justify-center active:translate-y-1 active:shadow-none transition-all"
           >
             <ZoomIn size={24} strokeWidth={2.5} className="text-slate-800" />
           </button>
-          <button 
+          <button
             onClick={handleZoomOut}
             className="w-12 h-12 bg-white rounded-full border-[3px] border-black shadow-[3px_3px_0px_rgba(0,0,0,1)] flex items-center justify-center active:translate-y-1 active:shadow-none transition-all"
           >
@@ -345,44 +347,44 @@ export function Atlas() {
           </button>
         </div>
 
-        <motion.div
-          className="absolute origin-center rounded-3xl overflow-hidden border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,0.3)]"
-          style={{
-            width: 1600,
-            height: 1200,
-            top: '50%',
-            left: '50%',
-            marginTop: -600,
-            marginLeft: -800,
-            backgroundImage: `url(${aseanMapImage})`,
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            backgroundColor: '#DBEAFE'
-          }}
-          animate={{ scale: mapScale }}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          drag={!selectedDisaster}
-          dragConstraints={mapRef}
-          whileTap={{ cursor: selectedDisaster ? 'default' : 'grabbing' }}
-        >
+        {/* Responsive Map Container - maintains 4:3 aspect ratio */}
+        <div className="absolute inset-0 flex items-center justify-center p-4">
+          <motion.div
+            className="relative w-full max-w-[1600px] aspect-[4/3] origin-center rounded-3xl overflow-hidden border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,0.3)]"
+            style={{
+              backgroundImage: `url(${aseanMapImage})`,
+              backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center',
+              backgroundColor: '#DBEAFE'
+            }}
+            animate={{ scale: mapScale }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            drag={!selectedDisaster}
+            dragConstraints={mapRef}
+            whileTap={{ cursor: selectedDisaster ? 'default' : 'grabbing' }}
+          >
 
-          {/* Fallback SVG Map Background - shown if image fails to load */}
-          <div className="absolute inset-0 z-0 opacity-30 pointer-events-none">
-            <AseanMapSVG />
-          </div>
+            {/* Fallback SVG Map Background - shown if image fails to load */}
+            <div className="absolute inset-0 z-0 opacity-30 pointer-events-none">
+              <AseanMapSVG />
+            </div>
 
-          {/* Disaster Markers (Z-Index 1) */}
-          <AnimatePresence>
-            {!selectedDisaster && markers.map((m) => (
-              <motion.div
-                key={m.id}
-                initial={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                onClick={() => openDisaster(m)}
-                className="absolute z-[10] cursor-pointer -translate-x-1/2 -translate-y-1/2"
-                style={{ top: m.top, left: m.left }}
-              >
+            {/* Disaster Markers (Z-Index 10) - positioned relative to map container */}
+            <AnimatePresence>
+              {!selectedDisaster && markers.map((m) => (
+                <motion.div
+                  key={m.id}
+                  initial={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  onClick={() => openDisaster(m)}
+                  className="absolute z-[10] cursor-pointer"
+                  style={{
+                    top: m.top,
+                    left: m.left,
+                    transform: 'translate(-50%, -50%)'
+                  }}
+                >
                 <motion.div 
                   animate={{ y: [0, -8, 0] }}
                   transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
@@ -404,7 +406,8 @@ export function Atlas() {
             ))}
           </AnimatePresence>
 
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
 
       {/* History Capsule Modal (Z-Index 3) */}
